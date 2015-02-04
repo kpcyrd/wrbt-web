@@ -19,6 +19,10 @@ document.addEventListener('DOMContentLoaded', function() {
         return queryString.parse(url.substr(url.indexOf('#') + 1));
     };
 
+    if(window.location.hash == '#exchange') {
+        document.getElementById('splash').hidden = true;
+    }
+
     document.getElementById('start').onclick = function() {
         var i = 0;
         var step = 75;
