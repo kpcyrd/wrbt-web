@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>wrbt</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="node_modules/js-nacl/lib/nacl_factory.js"></script>
+        <script src="node_modules/query-string/query-string.js"></script>
+        <script src="script.js"></script>
+    </head>
+    <body>
+        <div id="splash">
+<pre id="rabbit">
+             _       _
+            / \     / \
+           {   }   {   }
+           {   {   }   }
+            \   \ /   /
+             \   Y   /
+             .-"`"`"-.
+           ,`         `.
+          /             \
+         /               \
+        {     ;"";,       }
+        {  /";`'`,;       }
+         \{  ;`,'`;.     /
+          {  }`""`  }   /}
+          {  }      {  //
+          {||}      {  /
+          `"'       `"'
+</pre>
+<div id="text">
+    <h1>wrbt</h1>
+    <p>Follow the white rabbit</p>
+    <p>Cjdns implements an encrypted IPv6 network using public key cryptography for address allocation and a distributed hash table for routing. This provides near zero-configuration networking without many of the security and robustness issues that regular IPv4 and IPv6 networks have.</p>
+    <p class="right">
+        <a href="https://github.com/kpcyrd/yrd" class="btn">Commandline</a>
+        <a href="market://" class="btn">Android</a>
+        <button id="start" class="btn btn-primary">Browser</button>
+    </p>
+</div>
+        </div>
+        <div id="exchange">
+            <div class="operation">
+                <div>
+                    <label for="request-output">Request:</label>
+                    <input id="request-output" class="output" readonly>
+                </div>
+                <div>
+                    <label for="sk">Secret Key:</label>
+                    <input id="sk" class="output">
+                </div>
+                <div>
+                    <button class="btn btn-primary" id="gen-request">Request peering</button>
+                </div>
+            </div>
+
+            <div class="operation">
+                <div>
+                    <label for="request-input">Request:</label>
+                    <input class="output" id="request-input">
+                </div>
+
+                <div>
+                    <label for="addr">Addr:</label>
+                    <input class="output" id="addr">
+                </div>
+
+                <div>
+                    <label for="pk">Public Key:</label>
+                    <input class="output" id="pk">
+                </div>
+
+                <div>
+                    <label for="password">Password:</label>
+                    <input class="output" id="password">
+                </div>
+
+
+                <div>
+                    <input id="offer-output" class="output" readonly>
+
+                    <button class="btn btn-primary" id="gen-offer">Reply with offer</button>
+                </div>
+            </div>
+
+            <div class="operation">
+                <div>
+                    <label for="offer-input">Offer:</label>
+                    <input class="output" id="offer-input">
+                </div>
+                <div>
+                    <input id="response-output" class="output" readonly>
+                    <button class="btn btn-primary" id="decrypt">Decrypt offer</button>
+                </div>
+            </div>
+        </div>
+        <footer>
+            Want to improve this site? It's on <a href="https://github.com/kpcyrd/wrbt-web">github</a>.
+        </footer>
+    </body>
+</html>
