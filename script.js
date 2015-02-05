@@ -50,8 +50,9 @@ document.addEventListener('DOMContentLoaded', function() {
             wrbtVersion: WRBT_VERSION
         };
 
-        document.getElementById('sk').value = key2b64(keypair.boxSk);
+        var sk = key2b64(keypair.boxSk);
         document.getElementById('request-output').value = PREFIX + '#' + queryString.stringify(query);
+        window.location.hash = '#exchange/' + sk;
     };
 
     document.getElementById('gen-offer').onclick = function() {
@@ -95,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var nacl = nacl_factory.instantiate();
 
         var offer = qs(document.getElementById('offer-input').value);
-        var priv = b642key(document.getElementById('sk').value);
+        var priv = b642key(window.location.hash.substr('#exchange/'.length));
 
         var sender = b642key(offer.pk);
 
