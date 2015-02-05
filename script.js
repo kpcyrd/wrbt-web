@@ -1,11 +1,15 @@
 'use strict';
 
+// STOP TOUCHING //
 var WRBT_VERSION = 1;
+// START TOUCHING //
+
 var PREFIX = 'http://wrbt.hyperboria.net/';
 
 document.addEventListener('DOMContentLoaded', function() {
     var body = document.getElementsByTagName('body')[0];
 
+    // STOP TOUCHING //
     var key2b64 = function(x) {
         return btoa(String.fromCharCode.apply(null, x));
     };
@@ -14,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return new Uint8Array(atob(x).split("").map(function(c) {
                 return c.charCodeAt(0); }));
     };
+    // START TOUCHING //
 
     var qs = function(url) {
         return queryString.parse(url.substr(url.indexOf('#') + 1));
@@ -45,6 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     document.getElementById('gen-request').onclick = function() {
+        // STOP TOUCHING //
         var nacl = nacl_factory.instantiate();
         var keypair = nacl.crypto_box_keypair();
         var query = {
@@ -53,10 +59,11 @@ document.addEventListener('DOMContentLoaded', function() {
             pk: key2b64(keypair.boxPk),
             wrbtVersion: WRBT_VERSION
         };
+        var my_private = key2b64(keypair.boxSk);
+        // START TOUCHING //
 
-        var sk = key2b64(keypair.boxSk);
         document.getElementById('request-output').value = PREFIX + '#' + queryString.stringify(query);
-        window.location.hash = '#exchange/' + sk;
+        window.location.hash = '#exchange/' + my_private;
     };
 
     document.getElementById('auth').onclick = function() {
@@ -65,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var server = $('auth-server').value;
         var pw = $('auth-pw').value;
 
+        // STOP TOUCHING //
         var auth = Crypto.HMAC(Crypto.SHA256, request, pw);
 
         var query = queryString.stringify({
@@ -73,6 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
             payload: request,
             name: name
         });
+        // START TOUCHING //
 
         var xhr = new XMLHttpRequest();
         xhr.onload = function() {
@@ -89,18 +98,20 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     document.getElementById('gen-offer').onclick = function() {
-        var nacl = nacl_factory.instantiate();
-
-        var keypair = nacl.crypto_box_keypair();
-        var nonce = nacl.crypto_box_random_nonce();
-
         var url = document.getElementById('request-input').value;
-        var request = qs(url);
-        var pk = b642key(request.pk);
-
         var addr = document.getElementById('addr').value;
         var cjdnspk = document.getElementById('pk').value;
         var password = document.getElementById('password').value;
+
+        var request = qs(url);
+
+        // STOP TOUCHING //
+        var his_public = b642key(request.pk);
+
+        var nacl = nacl_factory.instantiate();
+
+        var my_keypair = nacl.crypto_box_keypair();
+        var nonce = nacl.crypto_box_random_nonce();
 
         var offer = {credentials: {}};
         offer.credentials[addr] = {
@@ -110,31 +121,33 @@ document.addEventListener('DOMContentLoaded', function() {
 
         offer = JSON.stringify(offer);
 
-        var packet = nacl.crypto_box(nacl.encode_utf8(offer), nonce, pk, keypair.boxSk);
+        var packet = nacl.crypto_box(nacl.encode_utf8(offer), nonce, his_public, my_keypair.boxSk);
 
         var response = {
             type: 'credentials',
             interface: 'udp',
             message: key2b64(packet),
-            pk: key2b64(keypair.boxPk),
+            pk: key2b64(my_keypair.boxPk),
             n: key2b64(nonce),
             wrbtVersion: WRBT_VERSION
         };
+        // START TOUCHING //
 
         var query = queryString.stringify(response);
         document.getElementById('offer-output').value = PREFIX + '#' + query;
     };
 
     document.getElementById('decrypt').onclick = function() {
+        var offer = qs(document.getElementById('offer-input').value);
+
+        // STOP TOUCHING //
         var nacl = nacl_factory.instantiate();
 
-        var offer = qs(document.getElementById('offer-input').value);
-        var priv = b642key(window.location.hash.substr('#exchange/'.length));
+        var my_private = b642key(window.location.hash.substr('#exchange/'.length));
 
-        var sender = b642key(offer.pk);
-
-        var msg = nacl.crypto_box_open(b642key(offer.message), b642key(offer.n), sender, priv);
+        var msg = nacl.crypto_box_open(b642key(offer.message), b642key(offer.n), b642key(offer.pk), my_private);
         msg = nacl.decode_utf8(msg);
+        // START TOUCHING //
 
         document.getElementById('response-output').value = msg;
     };
