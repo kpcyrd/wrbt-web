@@ -19,6 +19,10 @@ document.addEventListener('DOMContentLoaded', function() {
         return queryString.parse(url.substr(url.indexOf('#') + 1));
     };
 
+    var $ = function(id) {
+        return document.getElementById(id);
+    };
+
     if(window.location.hash.startsWith('#exchange')) {
         document.getElementById('splash').hidden = true;
     }
@@ -53,6 +57,35 @@ document.addEventListener('DOMContentLoaded', function() {
         var sk = key2b64(keypair.boxSk);
         document.getElementById('request-output').value = PREFIX + '#' + queryString.stringify(query);
         window.location.hash = '#exchange/' + sk;
+    };
+
+    document.getElementById('auth').onclick = function() {
+        var request = $('auth-req').value;
+        var name = $('auth-name').value;
+        var server = $('auth-server').value;
+        var pw = $('auth-pw').value;
+
+        var auth = Crypto.HMAC(Crypto.SHA256, request, pw);
+
+        var query = queryString.stringify({
+            method: 'authorize',
+            auth: auth,
+            payload: request,
+            name: name
+        });
+
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function() {
+            var resp = JSON.parse(xhr.responseText);
+            if('error' in resp) {
+                $('auth-offer').value = 'Error: ' + resp['error'];
+            } else {
+                $('auth-offer').value = resp['response'];
+            }
+        };
+        xhr.open('POST', server, true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.send(query);
     };
 
     document.getElementById('gen-offer').onclick = function() {

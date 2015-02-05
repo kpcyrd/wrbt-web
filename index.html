@@ -7,6 +7,9 @@
         <link rel="stylesheet" href="style.css">
         <script src="node_modules/js-nacl/lib/nacl_factory.js"></script>
         <script src="node_modules/query-string/query-string.js"></script>
+        <script src="node_modules/cryptojs/lib/Crypto.js"></script>
+        <script src="node_modules/cryptojs/lib/HMAC.js"></script>
+        <script src="node_modules/cryptojs/lib/SHA256.js"></script>
         <script src="script.js"></script>
     </head>
     <body>
@@ -28,6 +31,52 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="col-md-6">
+                    <h1>Authorize on server</h1>
+
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="auth-req" class="control-label col-sm-3">Request:</label>
+                            <div class="col-sm-9">
+                                <input id="auth-req" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="auth-name" class="control-label col-sm-3">Name:</label>
+                            <div class="col-sm-9">
+                                <input id="auth-name" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="auth-server" class="control-label col-sm-3">Server:</label>
+                            <div class="col-sm-9">
+                                <input id="auth-server" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="auth-pw" class="control-label col-sm-3">Password:</label>
+                            <div class="col-sm-9">
+                                <input id="auth-pw" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="auth-offer" class="control-label col-sm-3">Offer:</label>
+                            <div class="col-sm-9">
+                                <input id="auth-offer" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12 text-right">
+                                <button class="btn btn-primary" id="auth">Authorize</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <h1>Decrypt offer</h1>
 
                     <div class="form-horizontal">
                         <div class="form-group">
@@ -49,8 +98,9 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="col-md-6">
-                    <h1>Authorize</h1>
+                    <h1>Pass credentials</h1>
                     <div class="form-horizontal">
                         <div class="form-group">
                             <label for="request-input" class="control-label col-sm-3">Request:</label>
