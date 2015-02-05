@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return queryString.parse(url.substr(url.indexOf('#') + 1));
     };
 
-    if(window.location.hash == '#exchange') {
+    if(window.location.hash.startsWith('#exchange')) {
         document.getElementById('splash').hidden = true;
     }
 
