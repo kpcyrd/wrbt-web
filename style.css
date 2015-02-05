@@ -1,7 +1,12 @@
 body {
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     margin: 0;
     background: #333;
+    color: #fff;
+}
+
+pre {
+    background-color: transparent;
+    border: 0;
     color: #fff;
 }
 
@@ -11,10 +16,6 @@ body {
     width: 100%;
     height: 100%;
     background: #000;
-}
-
-h1 {
-    margin: 0;
 }
 
 #rabbit {
@@ -34,50 +35,14 @@ h1 {
 }
 
 .btn {
-    display: inline-block;
-    padding: 6px 12px;
-    margin-bottom: 0px;
     font-size: 20px;
     font-weight: 400;
-    line-height: 1.42857;
-    text-align: center;
-    text-decoration: none;
-    white-space: nowrap;
-    vertical-align: middle;
-    cursor: pointer;
-    -moz-user-select: none;
-    background-image: none;
-    border: 1px solid #FFF;
-    border-radius: 4px;
-    color: #FFF;
     margin-left: 5px;
 }
 
-.btn-primary {
-    background-color: #337AB7;
-    border: 1px solid #2E6DA4;
-}
-
-.right {
-    text-align: right;
-}
-
-.operation {
-    margin: 20px;
-    font-size: 20px;
-    color: green;
-}
-
-label, .output {
-    font-size: 20px;
-    color: green;
-    vertical-align: middle;
-}
-
-.output {
-    background-color: #111;
-    border: 1px solid green;
-    padding: 6px 12px;
+.btn-white, .btn-white:hover {
+    border: 1px solid #FFF;
+    color: #FFF;
 }
 
 footer {
