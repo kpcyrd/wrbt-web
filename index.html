@@ -14,119 +14,71 @@
     </head>
     <body>
         <div id="exchange" class="container">
-            <div class="row">
-                <div class="col-md-6">
+            <div id="req" class="row">
+                <div class="col-md-offset-3 col-md-6">
                     <h1>Request</h1>
 
                     <div class="form-horizontal">
                         <div class="form-group">
-                            <label for="request-output" class="control-label col-sm-3">Request:</label>
-                            <div class="col-sm-9">
-                                <input id="request-output" class="form-control" readonly>
+                            <div class="col-sm-12 text-center">
+                                <button class="btn btn-primary" id="req-do">Request peering</button>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="col-sm-12 text-right">
-                                <button class="btn btn-primary" id="gen-request">Request peering</button>
+                        <div id="req-req-div" class="form-group" hidden>
+                            <label for="req-req" class="control-label col-sm-3">Request:</label>
+                            <div class="col-sm-9">
+                                <input id="req-req" class="form-control" readonly>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <h1>Authorize on server</h1>
 
-                    <div class="form-horizontal">
-                        <div class="form-group">
-                            <label for="auth-req" class="control-label col-sm-3">Request:</label>
-                            <div class="col-sm-9">
-                                <input id="auth-req" class="form-control">
+                    <div id="decrypt" hidden>
+                        <h1>Decrypt offer</h1>
+
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label for="offer-input" class="control-label col-sm-3">Offer:</label>
+                                <div class="col-sm-9">
+                                    <input id="offer-input" class="form-control">
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="auth-name" class="control-label col-sm-3">Name:</label>
-                            <div class="col-sm-9">
-                                <input id="auth-name" class="form-control">
+                            <div class="form-group">
+                                <label for="response-output" class="control-label col-sm-3">Result:</label>
+                                <div class="col-sm-9">
+                                    <input id="response-output" class="form-control" readonly>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="auth-server" class="control-label col-sm-3">Server:</label>
-                            <div class="col-sm-9">
-                                <input id="auth-server" class="form-control">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="auth-pw" class="control-label col-sm-3">Password:</label>
-                            <div class="col-sm-9">
-                                <input id="auth-pw" class="form-control">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="auth-offer" class="control-label col-sm-3">Offer:</label>
-                            <div class="col-sm-9">
-                                <input id="auth-offer" class="form-control">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-12 text-right">
-                                <button class="btn btn-primary" id="auth">Authorize</button>
+                            <div class="form-group">
+                                <div class="col-sm-12 text-right">
+                                    <button class="btn btn-primary" id="decrypt">Decrypt</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <h1>Decrypt offer</h1>
-
-                    <div class="form-horizontal">
-                        <div class="form-group">
-                            <label for="offer-input" class="control-label col-sm-3">Offer:</label>
-                            <div class="col-sm-9">
-                                <input id="offer-input" class="form-control">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="response-output" class="control-label col-sm-3">Result:</label>
-                            <div class="col-sm-9">
-                                <input id="response-output" class="form-control" readonly>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-12 text-right">
-                                <button class="btn btn-primary" id="decrypt">Decrypt offer</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+            <div id="auth" class="row" hidden>
                 <div class="col-md-6">
                     <h1>Pass credentials</h1>
                     <div class="form-horizontal">
                         <div class="form-group">
-                            <label for="request-input" class="control-label col-sm-3">Request:</label>
-                            <div class="col-sm-9">
-                                <input id="request-input" class="form-control">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
                             <label for="addr" class="control-label col-sm-3">Addr:</label>
                             <div class="col-sm-9">
-                                <input id="addr" class="form-control">
+                                <input id="addr" class="form-control" placeholder="12.34.56.78:9999">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="pk" class="control-label col-sm-3">Public Key:</label>
                             <div class="col-sm-9">
-                                <input id="pk" class="form-control">
+                                <input id="pk" class="form-control" placeholder="foobar.k">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="password" class="control-label col-sm-3">Password:</label>
                             <div class="col-sm-9">
-                                <input id="password" class="form-control">
+                                <input id="password" class="form-control" placeholder="secret">
                             </div>
                         </div>
 
@@ -140,11 +92,53 @@
 
                         <div class="form-group">
                             <div class="col-sm-12 text-right">
-                                <button class="btn btn-primary" id="gen-offer">Reply with offer</button>
+                                <button class="btn btn-primary" id="gen-offer">Encrypt</button>
                             </div>
                         </div>
                     </div>
 
+                </div>
+
+                <div class="col-md-6">
+                    <h1>Authorize on your server</h1>
+
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="auth-name" class="control-label col-sm-3">Name:</label>
+                            <div class="col-sm-9">
+                                <input id="auth-name" class="form-control" placeholder="Alice">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="auth-server" class="control-label col-sm-3">Server:</label>
+                            <div class="col-sm-9">
+                                <input id="auth-server" class="form-control" placeholder="http://127.0.0.1:5000/api">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="auth-pw" class="control-label col-sm-3">Password:</label>
+                            <div class="col-sm-9">
+                                <input id="auth-pw" class="form-control" placeholder="changeme">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="auth-offer" class="control-label col-sm-3">Offer:</label>
+                            <div class="col-sm-9">
+                                <input id="auth-offer" class="form-control" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12 text-right">
+                                <button class="btn btn-primary" id="auth-do">Authorize</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="decrypt-info" class="row" hidden>
+                <div class="col-md-6 col-md-offset-3">
+                    <h1>Almost there...</h1>
+                    <p>Please paste this into your application or decryption tab you've left open (hopefully).</p>
                 </div>
             </div>
         </div>
@@ -175,7 +169,7 @@
     <p class="text-right">
         <a href="https://github.com/kpcyrd/yrd" class="btn btn-white">Commandline</a>
         <a href="market://" class="btn btn-white">Android</a>
-        <a href="#exchange" id="start" class="btn btn-primary">Browser</a>
+        <button id="start" class="btn btn-primary">Browser</button>
     </p>
 </div>
         </div>

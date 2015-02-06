@@ -28,11 +28,23 @@ document.addEventListener('DOMContentLoaded', function() {
         return document.getElementById(id);
     };
 
-    if(window.location.hash.startsWith('#exchange')) {
-        document.getElementById('splash').hidden = true;
+    var args = qs(window.location.href);
+
+    if(args['type'] == 'peer') {
+        $('splash').hidden = true;
+        $('req').hidden = true;
+        $('auth').hidden = false;
+    } else if(args['type'] == 'secret') {
+        $('splash').hidden = true;
+        $('decrypt').hidden = false;
+        $('req-req-div').hidden = false;
+    } else if(args['type'] == 'credentials') {
+        $('splash').hidden = true;
+        $('req').hidden = true;
+        $('decrypt-info').hidden = false;
     }
 
-    document.getElementById('start').onclick = function() {
+    $('start').onclick = function() {
         var i = 0;
         var step = 75;
         var interval = 10;
@@ -49,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(tick, interval);
     };
 
-    document.getElementById('gen-request').onclick = function() {
+    $('req-do').onclick = function() {
         // STOP TOUCHING //
         var nacl = nacl_factory.instantiate();
         var keypair = nacl.crypto_box_keypair();
@@ -62,12 +74,17 @@ document.addEventListener('DOMContentLoaded', function() {
         var my_private = key2b64(keypair.boxSk);
         // START TOUCHING //
 
-        document.getElementById('request-output').value = PREFIX + '#' + queryString.stringify(query);
-        window.location.hash = '#exchange/' + my_private;
+        $('req-req').value = PREFIX + '#' + queryString.stringify(query);
+        $('decrypt').hidden = false;
+        $('req-req-div').hidden = false;
+        window.location.hash = '#' + queryString.stringify({
+            type: 'secret',
+            sk: my_private
+        });
     };
 
-    document.getElementById('auth').onclick = function() {
-        var request = $('auth-req').value;
+    $('auth-do').onclick = function() {
+        var request = window.location.href;
         var name = $('auth-name').value;
         var server = $('auth-server').value;
         var pw = $('auth-pw').value;
@@ -97,8 +114,8 @@ document.addEventListener('DOMContentLoaded', function() {
         xhr.send(query);
     };
 
-    document.getElementById('gen-offer').onclick = function() {
-        var url = document.getElementById('request-input').value;
+    $('gen-offer').onclick = function() {
+        var url = window.location.href;
         var addr = document.getElementById('addr').value;
         var cjdnspk = document.getElementById('pk').value;
         var password = document.getElementById('password').value;
@@ -138,12 +155,12 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     document.getElementById('decrypt').onclick = function() {
-        var offer = qs(document.getElementById('offer-input').value);
+        var offer = qs($('offer-input').value);
 
         // STOP TOUCHING //
         var nacl = nacl_factory.instantiate();
 
-        var my_private = b642key(window.location.hash.substr('#exchange/'.length));
+        var my_private = b642key(qs(window.location.href).sk);
 
         var msg = nacl.crypto_box_open(b642key(offer.message), b642key(offer.n), b642key(offer.pk), my_private);
         msg = nacl.decode_utf8(msg);

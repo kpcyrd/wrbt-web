@@ -45,6 +45,11 @@ pre {
     color: #FFF;
 }
 
+.form-control[readonly] {
+    background-color: #BBB;
+    cursor: pointer;
+}
+
 footer {
     position: fixed;
     bottom: 0px;
