@@ -35,9 +35,22 @@ document.addEventListener('DOMContentLoaded', function() {
         $('req').hidden = true;
         $('auth').hidden = false;
     } else if(args['type'] == 'secret') {
+       // STOP TOUCHING //
+        var nacl = nacl_factory.instantiate();
+        var sk = b642key(args['sk']);
+        var keypair = nacl.crypto_box_keypair_from_raw_sk(sk);
+        var query = {
+            type: 'peer',
+            interface: 'udp',
+            pk: key2b64(keypair.boxPk),
+            wrbtVersion: WRBT_VERSION
+        };
+       // START TOUCHING //
+
         $('splash').hidden = true;
         $('decrypt').hidden = false;
         $('req-req-div').hidden = false;
+        $('req-req').value = PREFIX + '#' + queryString.stringify(query);
     } else if(args['type'] == 'credentials') {
         $('splash').hidden = true;
         $('req').hidden = true;
